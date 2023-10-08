@@ -1,33 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>File Conversion</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Pong Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #canvas {
+      width: 500px;
+      height: 300px;
+      border: 1px solid black;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>File Conversion</h1>
-    <form action="/convert" method="post" enctype="multipart/form-data">
-      <input type="file" name="file" id="file-input">
-      <select name="format" id="format-select">
-        <option value="pdf">PDF</option>
-        <option value="jpg">JPG</option>
-        <option value="doc">DOC</option>
-      </select>
-      <button type="submit">Convert</button>
-    </form>
-
-    <div class="progress-bar"></div>
-    <div class="status"></div>
-
-    <div class="social-media-sharing">
-      <a href="#" class="facebook-share"><i class="fab fa-facebook-f"></i></a>
-      <a href="#" class="twitter-share"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="linkedin-share"><i class="fab fa-linkedin-in"></i></a>
-    </div>
-  </div>
+  <canvas id="canvas"></canvas>
 
   <script src="script.js"></script>
 </body>
