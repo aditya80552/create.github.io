@@ -40,13 +40,13 @@ function draw() {
   ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 
   // Display the score
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "white";
   ctx.font = "20px Arial";
   ctx.fillText(score1 + "-" + score2, 10, 30);
 
   // Display the game over message
   if (gameOver) {
-    ctx.fillStyle = "black";
+    ctx.fillStyle = "white";
     ctx.font = "40px Arial";
     ctx.fillText("Game over!", 100, 100);
   }
@@ -72,9 +72,16 @@ function update() {
   }
 
   // Check if the ball has gone past a paddle
-  if (ball.x < 0 || ball.x > canvas.width) {
-    // Game over
-    gameOver = true;
+  if (ball.x < 0) {
+    score2++;
+    if (score2 === 11) {
+      gameOver = true;
+    }
+  } else if (ball.x > canvas.width) {
+    score1++;
+    if (score1 === 11) {
+      gameOver = true;
+    }
   }
 }
 
