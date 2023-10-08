@@ -114,4 +114,3 @@ document.getElementById("full-screen-button").addEventListener("click", function
   fullScreen = !fullScreen;
 });
 
-
