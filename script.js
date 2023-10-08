@@ -1,27 +1,34 @@
-var canvas = document.getElementById("canvas");
-var ctx = canvas.getContext("2d");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
 
-var paddle1 = {
+const paddle1 = {
   x: 10,
   y: 100,
   width: 10,
   height: 50
 };
 
-var paddle2 = {
+const paddle2 = {
   x: 480,
   y: 100,
   width: 10,
   height: 50
 };
 
-var ball = {
+const ball = {
   x: 250,
   y: 150,
   radius: 5,
   dx: 5,
   dy: -5
 };
+
+let score1 = 0;
+let score2 = 0;
+
+let gameOver = false;
+
+let fullScreen = false;
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -31,6 +38,18 @@ function draw() {
 
   ctx.fillStyle = "red";
   ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
+
+  // Display the score
+  ctx.fillStyle = "black";
+  ctx.font = "20px Arial";
+  ctx.fillText(score1 + "-" + score2, 10, 30);
+
+  // Display the game over message
+  if (gameOver) {
+    ctx.fillStyle = "black";
+    ctx.font = "40px Arial";
+    ctx.fillText("Game over!", 100, 100);
+  }
 }
 
 function update() {
@@ -55,8 +74,7 @@ function update() {
   // Check if the ball has gone past a paddle
   if (ball.x < 0 || ball.x > canvas.width) {
     // Game over
-    alert("Game over!");
-    return;
+    gameOver = true;
   }
 }
 
@@ -64,7 +82,36 @@ function gameloop() {
   update();
   draw();
 
-  requestAnimationFrame(gameloop);
+  if (!gameOver) {
+    requestAnimationFrame(gameloop);
+  }
 }
 
+// Start the game
 gameloop();
+
+// Add event listeners to the paddles
+document.addEventListener("keydown", function (e) {
+  if (e.keyCode === 38) {
+    paddle1.y -= 10;
+  } else if (e.keyCode === 40) {
+    paddle1.y += 10;
+  } else if (e.keyCode === 87) {
+    paddle2.y -= 10;
+  } else if (e.keyCode === 83) {
+    paddle2.y += 10;
+  }
+});
+
+// Add an event listener to the full screen button
+document.getElementById("full-screen-button").addEventListener("click", function () {
+  if (fullScreen) {
+    document.exitFullscreen();
+  } else {
+    canvas.requestFullscreen();
+  }
+
+  fullScreen = !fullScreen;
+});
+
+
