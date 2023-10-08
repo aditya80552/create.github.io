@@ -1,59 +1,42 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pong Game</title>
+  <title>Pong Game with AI</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
-    }
-
-    #canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    .score {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      color: white;
-      font-size: 20px;
-    }
-
-    .game-over {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: white;
-      font-size: 40px;
-      font-weight: bold;
-    }
-
-    .full-screen {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      color: white;
-      font-size: 20px;
-    }
-  </style>
+  <script src="script.js"></script>
 </head>
 <body>
   <canvas id="canvas"></canvas>
 
-  <div class="score">
-    <span id="score-1">0</span> - <span id="score-2">0</span>
+  <div id="difficulty-select">
+    <select id="difficulty">
+      <option value="easy">Easy</option>
+      <option value="medium">Medium</option>
+      <option value="hard">Hard</option>
+    </select>
   </div>
+
+  <div id="power-ups">
+    <div class="power-up" id="speed-up">Speed Up</div>
+    <div class="power-up" id="shrink-ball">Shrink Ball</div>
+    <div class="power-up" id="freeze-opponent">Freeze Opponent</div>
+  </div>
+
+  <div id="multiplayer">
+    <button id="start-multiplayer">Start Multiplayer</button>
+  </div>
+
+  <div id="leaderboard">
+    <h3>Leaderboard</h3>
+    <ul id="leaderboard-list"></ul>
+  </div>
+<button id="start-button">Start Game</button>
 
   <div id="game-over" style="display: none;">Game over!</div>
 
-  <button id="full-screen-button" class="full-screen">Full screen</button>
+  <button id="full-screen-button">Full screen</button>
 
-  <script src="script.js"></script>
+  <button id="replay-button">Replay</button>
 </body>
 </html>
 
