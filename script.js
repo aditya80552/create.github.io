@@ -1,43 +1,70 @@
-// JavaScript code
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext("2d");
 
-// Add event listener to the submit button
-document.querySelector('form button').addEventListener('click', function() {
-  // Get the file and format from the form
-  const file = document.querySelector('#file-input').files[0];
-  const format = document.querySelector('#format-select').value;
+var paddle1 = {
+  x: 10,
+  y: 100,
+  width: 10,
+  height: 50
+};
 
-  // Start the conversion process
-  convertFile(file, format);
-});
+var paddle2 = {
+  x: 480,
+  y: 100,
+  width: 10,
+  height: 50
+};
 
-// Convert the file to the desired format
-function convertFile(file, format) {
-  // Make a POST request to the backend server to convert the file
-  const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/convert');
-  xhr.setRequestHeader('Content-Type', 'multipart/form-data');
+var ball = {
+  x: 250,
+  y: 150,
+  radius: 5,
+  dx: 5,
+  dy: -5
+};
 
-  // Create a FormData object
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('format', format);
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Set the request body
-  xhr.send(formData);
+  ctx.fillRect(paddle1.x, paddle1.y, paddle1.width, paddle1.height);
+  ctx.fillRect(paddle2.x, paddle2.y, paddle2.width, paddle2.height);
 
-  // Once the conversion is complete, download the converted file
-  xhr.onload = function() {
-    if (xhr.status === 200) {
-      // Download the converted file
-      const convertedFile = xhr.response;
-      const blob = new Blob([convertedFile], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'converted.pdf';
-      link.click();
-    } else {
-      // Handle error
-      console.log('Error converting file:', xhr.statusText);
-    } };
+  ctx.fillStyle = "red";
+  ctx.fillRect(ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2);
 }
+
+function update() {
+  // Move the ball
+  ball.x += ball.dx;
+  ball.y += ball.dy;
+
+  // Check for collisions with the paddles
+  if (ball.x - ball.radius < paddle1.x + paddle1.width && ball.y - ball.radius < paddle1.y + paddle1.height && ball.y + ball.radius > paddle1.y) {
+    ball.dx = -ball.dx;
+  }
+
+  if (ball.x + ball.radius > paddle2.x && ball.y - ball.radius < paddle2.y + paddle2.height && ball.y + ball.radius > paddle2.y) {
+    ball.dx = -ball.dx;
+  }
+
+  // Check if the ball has hit the top or bottom of the screen
+  if (ball.y - ball.radius < 0 || ball.y + ball.radius > canvas.height) {
+    ball.dy = -ball.dy;
+  }
+
+  // Check if the ball has gone past a paddle
+  if (ball.x < 0 || ball.x > canvas.width) {
+    // Game over
+    alert("Game over!");
+    return;
+  }
+}
+
+function gameloop() {
+  update();
+  draw();
+
+  requestAnimationFrame(gameloop);
+}
+
+gameloop();
